@@ -1,0 +1,11 @@
+Package: opencode-box
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: bash (>= 4.0), docker.io | docker-ce
+Maintainer: Your Name <you@example.com>
+Description: Manage an opencode box docker container
+ opencode-box installs, starts, stops and removes a docker container
+ named "opencode" that mounts ~/opencode-work as /work, and lets you
+ open a shell inside it either as your own user or as root.

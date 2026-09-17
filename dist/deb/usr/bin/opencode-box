@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    echo "Usage: opencode COMMAND"
+    echo
+    echo "Commands:"
+    echo "  install   Create the opencode box"
+    echo "  uninstall Remove the opencode box"
+    echo "  up        Point workdir to \$PWD, start the box and exec into it"
+    echo "  down      Stop the opencode box"
+    echo "  exe       Execute a shell in the running box as current user"
+    echo "  root      Execute a shell in the running box as root"
+}
+
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+    install)
+        docker run -it -v ~/opencode-work:/work --name opencode ubuntu:24.04
+        ;;
+    uninstall)
+        docker stop opencode > /dev/null
+        docker rm opencode > /dev/null
+        ;;
+    up)
+        docker stop opencode > /dev/null
+        rm ~/opencode-work
+        ln -s "$PWD" ~/opencode-work
+        docker start opencode > /dev/null
+        docker exec -it -u "$(id -u):$(id -g)" opencode bash
+        ;;
+    down)
+        docker stop opencode > /dev/null
+        ;;
+    exe)
+        docker exec -it -u "$(id -u):$(id -g)" opencode bash
+        ;;
+    root)
+        docker exec -it opencode bash
+        ;;
+    help|-h|--help)
+        usage
+        ;;
+    *)
+        echo "Unknown command: $cmd" >&2
+        usage
+        exit 1
+        ;;
+esac

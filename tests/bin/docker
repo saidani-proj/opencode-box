@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -u
+
+log="${MOCK_DOCKER_LOG:?MOCK_DOCKER_LOG not set}"
+
+{
+    printf 'docker'
+    for a in "$@"; do
+        printf ' <%s>' "$a"
+    done
+    printf '\n'
+} >> "$log"
+
+case "$1" in
+    run)
+        echo "abcdef1234567890"
+        ;;
+    start)
+        echo "opencode"
+        ;;
+    stop)
+        echo "opencode"
+        ;;
+    rm)
+        echo "opencode"
+        ;;
+esac
+
+exit 0
