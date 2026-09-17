@@ -26,7 +26,7 @@ case "$cmd" in
         ;;
     up)
         docker stop opencode > /dev/null
-        rm ~/opencode-work
+        rm ~/opencode-work -rf
         ln -s "$PWD" ~/opencode-work
         docker start opencode > /dev/null
         docker exec -it -u "$(id -u):$(id -g)" opencode bash
