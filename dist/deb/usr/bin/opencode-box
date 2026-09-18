@@ -18,11 +18,12 @@ shift || true
 
 case "$cmd" in
     install)
-        docker run -it -v ~/opencode-work:/work --name opencode ubuntu:24.04
+        docker create -it -v ~/opencode-work:/work --name opencode ubuntu:24.04 > /dev/null
         ;;
     uninstall)
         docker stop opencode > /dev/null
         docker rm opencode > /dev/null
+		rm ~/opencode-work -rf
         ;;
     up)
         docker stop opencode > /dev/null
